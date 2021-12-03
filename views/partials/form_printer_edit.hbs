@@ -1,0 +1,39 @@
+<form class='form' action="/printers" method="post">
+<!--@todo change values in elements-->
+    <div class="form__ctr">
+        <label class='form__label' for='title'>Title:</label>
+        <input class='form__input form__input--text' type="text" name='title' id='title'>
+    </div>
+
+    <div class="form__ctr">
+        <label class='form__label' for="ip">Ip number:</label>
+        <input class='form__input form__input--text' type="text" name="ip" id="ip">
+    </div>
+
+    <div class="form__ctr">
+        <label class='form__label' for="typeOfPrinter">Type of a printer:</label>
+        <select name="typeOfPrinter" id="typeOfPrinter">
+            <option value="Xerox_AltaLink_C8035">Xerox AltaLink C8035</option>
+            <option value="Xerox_VersaLink_C605">Xerox VersaLink C605</option>
+            <option value="Xerox_VersaLink_C400">Xerox VersaLink C400</option>
+        </select>
+    </div>
+
+    <div class="form__ctr">
+        <label class='form__label' for="multifunctional">multifunctional:</label>
+        <input class='form__input form__input--text' type="text" name="multifunctional" id="multifunctional">
+    </div>
+
+    <div class="form__ctr">
+        <label class='form__label' for="area">area:</label>
+        <input class='form__input form__input--text' type="text" name="area" id="area">
+    </div>
+
+    <div class="form__ctr">
+        <label class='form__label' for="location">location:</label>
+        <input class='form__input form__input--text' type="text" name="location" id="location">
+    </div>
+
+    <button type="submit" form__btn>Save</button>
+
+</form>

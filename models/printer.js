@@ -11,7 +11,7 @@ const printerSchema = Schema({
     type: String,
   },
   multifunctional: {
-    type: Boolean,
+    type: String,
   },
   area: {
     type: String,
