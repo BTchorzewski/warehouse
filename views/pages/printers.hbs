@@ -1,0 +1,19 @@
+<h1>printers page</h1>
+
+<ul class="printers">
+        {{#each printers}}
+         <li class="printers__item printer">
+            <p>Title: {{title}}</p>
+            <p>Ip: {{ip}}</p>
+            <p>Model: {{model}}</p>
+            <p>Multifunctional: {{multifunctional}}</p>
+            <p>Area: {{area}}</p>
+            <p>Location: {{location}}</p>
+<!--            @todo create history list-->
+            <p>History... </p>
+             <a href='/printers/delete/{{_id}}'>Delete</a>
+             <a href='/printers/update/:printerId'>Edit</a>
+        </li>
+        {{/each}}
+
+</ul>

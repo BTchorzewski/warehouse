@@ -22,7 +22,6 @@ app.set('view engine', '.hbs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded());
 
-
 // routers
 app.use(homeRouter);
 app.use(printerRouter);

@@ -1,12 +1,30 @@
 const express = require('express');
 
 const printerRouter = express.Router();
-const {savePrinter} = require('../controllers/printer');
 
-printerRouter.get('/printers');
+// Controllers:
+//   getPrintersPage,
+//   createPrinterPage,
+//   createPrinter,
+//   updatePrinterPage,
+//   updatePrinter,
+//   deletePrinter,
 
-printerRouter.post('/printers', savePrinter);
+const {
+  getPrintersPage,
+  createPrinterPage,
+  createPrinter,
+  updatePrinterPage,
+  updatePrinter,
+  deletePrinter,
+} = require('../controllers/printer');
 
+printerRouter.get('/printers', getPrintersPage);
+printerRouter.get('/printers/create', createPrinterPage);
+printerRouter.post('/printers/create', createPrinter);
+printerRouter.get('/printers/update/:printerId', updatePrinterPage);
+printerRouter.post('/printers/update');
+printerRouter.get('/printers/delete/:printerId', deletePrinter);
 
 module.exports = {
   printerRouter,
