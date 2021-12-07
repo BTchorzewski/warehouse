@@ -23,7 +23,7 @@ printerRouter.get('/printers', getPrintersPage);
 printerRouter.get('/printers/create', createPrinterPage);
 printerRouter.post('/printers/create', createPrinter);
 printerRouter.get('/printers/update/:printerId', updatePrinterPage);
-printerRouter.post('/printers/update');
+printerRouter.post('/printers/update', updatePrinter);
 printerRouter.get('/printers/delete/:printerId', deletePrinter);
 
 module.exports = {

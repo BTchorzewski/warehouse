@@ -9,12 +9,12 @@ const getPrintersPage = async (req, res) => {
   } catch (e) {
     throw new Error('DB error');
   }
-  res.render('pages/printers', { printers });
+  res.render('pages/printers/printers', { printers });
 };
 
 const createPrinterPage = (req, res) => {
 //  @todo create page with form to add a new printer
-  res.render('pages/create-printer-page');
+  res.render('pages/printers/create-printer-page');
 };
 
 const createPrinter = async (req, res) => {
@@ -44,16 +44,36 @@ const createPrinter = async (req, res) => {
 
 const updatePrinterPage = async (req, res) => {
   const { printerId } = req.params;
-  const printer = await Printer.findById(printerId);
+  const printer = await Printer.findById(printerId).lean();
   if (!printer) {
     throw new Error('A printer not found.');
   }
-
-  res.render('pages/update-printer-page').status(200);
+  console.log(printer);
+  res.render('pages/printers/update-printer-page', { printer });
 };
 
 const updatePrinter = async (req, res) => {
+  const {
+    printerId,
+    title,
+    ip,
+    typeOfPrinter,
+    location,
+  } = req.body;
 
+  try {
+    await Printer.findByIdAndUpdate(printerId, {
+      title,
+      ip,
+      typeOfPrinter,
+      location,
+      multifunctional: isMultifunctionalPrinter(typeOfPrinter),
+    });
+    console.log('printer updated');
+    res.redirect('/');
+  } catch (e) {
+    console.log('something wrong', e);
+  }
 };
 
 const deletePrinter = async (req, res) => {

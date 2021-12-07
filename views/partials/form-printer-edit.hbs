@@ -1,18 +1,19 @@
-<form class='form' action="/printers" method="post">
-<!--@todo change values in elements-->
+<form class='form' action="/printers/update" method="post">
+    <input type="hidden" name="printerId" value="{{printer._id}}">
     <div class="form__ctr">
         <label class='form__label' for='title'>Title:</label>
-        <input class='form__input form__input--text' type="text" name='title' id='title'>
+        <input class='form__input form__input--text' type="text" name='title' id='title' value="{{printer.title}}">
     </div>
 
     <div class="form__ctr">
         <label class='form__label' for="ip">Ip number:</label>
-        <input class='form__input form__input--text' type="text" name="ip" id="ip">
+        <input class='form__input form__input--text' type="text" name="ip" id="ip" value="{{printer.ip}}">
     </div>
 
     <div class="form__ctr">
         <label class='form__label' for="typeOfPrinter">Type of a printer:</label>
-        <select name="typeOfPrinter" id="typeOfPrinter">
+<!--        @todo add default value-->
+        <select name="typeOfPrinter" id="typeOfPrinter" >
             <option value="Xerox_AltaLink_C8035">Xerox AltaLink C8035</option>
             <option value="Xerox_VersaLink_C605">Xerox VersaLink C605</option>
             <option value="Xerox_VersaLink_C400">Xerox VersaLink C400</option>
@@ -20,18 +21,13 @@
     </div>
 
     <div class="form__ctr">
-        <label class='form__label' for="multifunctional">multifunctional:</label>
-        <input class='form__input form__input--text' type="text" name="multifunctional" id="multifunctional">
-    </div>
-
-    <div class="form__ctr">
         <label class='form__label' for="area">area:</label>
-        <input class='form__input form__input--text' type="text" name="area" id="area">
+        <input class='form__input form__input--text' type="text" name="area" id="area" value="{{printer.area}}">
     </div>
 
     <div class="form__ctr">
         <label class='form__label' for="location">location:</label>
-        <input class='form__input form__input--text' type="text" name="location" id="location">
+        <input class='form__input form__input--text' type="text" name="location" id="location" value="{{printer.location}}">
     </div>
 
     <button type="submit" form__btn>Save</button>
