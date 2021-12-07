@@ -2,7 +2,6 @@ const Printer = require('../models/printer');
 const { isMultifunctionalPrinter } = require('../utilities/utilities');
 
 const getPrintersPage = async (req, res) => {
-//  @todo create printers page;
   let printers;
   try {
     printers = await Printer.find().lean();
@@ -12,8 +11,18 @@ const getPrintersPage = async (req, res) => {
   res.render('pages/printers/printers', { printers });
 };
 
+const getPrinterPage = async (req, res) => {
+  const { printerId } = req.params;
+  try {
+    const printer = await Printer.findById(printerId).lean();
+    if (!printer) throw new Error('a printer not found');
+    res.render('pages/printers/printer', { printer });
+  } catch (e) {
+    res.send(`Something wrong: ${e}`);
+  }
+};
+
 const createPrinterPage = (req, res) => {
-//  @todo create page with form to add a new printer
   res.render('pages/printers/create-printer-page');
 };
 
@@ -83,6 +92,7 @@ const deletePrinter = async (req, res) => {
 };
 
 module.exports = {
+  getPrinterPage,
   getPrintersPage,
   createPrinterPage,
   createPrinter,

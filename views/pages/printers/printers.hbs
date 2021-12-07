@@ -5,15 +5,10 @@
          <li class="printers__item printer">
             <p>Title: {{title}}</p>
             <p>Ip: {{ip}}</p>
-            <p>Model: {{model}}</p>
-            <p>Multifunctional: {{multifunctional}}</p>
-            <p>Area: {{area}}</p>
-            <p>Location: {{location}}</p>
-<!--            @todo create history list-->
             <p>History... </p>
-             <a href='/printers/delete/{{_id}}'>Delete</a>
-             <a href='/printers/update/{{_id}}'>Edit</a>
-        </li>
+             <a href='/printers/{{_id}}'>Manage</a>
+         </li>
         {{/each}}
+
 
 </ul>
