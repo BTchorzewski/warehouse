@@ -1,14 +1,83 @@
 <h1>printers page</h1>
 
-<ul class="printers">
-        {{#each printers}}
-         <li class="printers__item printer">
-            <p>Title: {{title}}</p>
-            <p>Ip: {{ip}}</p>
-            <p>History... </p>
-             <a href='/printers/{{_id}}'>Manage</a>
-         </li>
-        {{/each}}
+<table class="table">
+    <thead class="table__head">
+    <tr class="table__row--main">List of printers</tr>
+    </thead>
+    <tbody class="table__body">
+    <tr class="table__row--title table__row" colspan="6">
+        <td class="table__data">TITLE</td>
+        <td class="table__data">IP</td>
+        <td class="table__data">MODEL</td>
+        <td class="table__data">MULTIFUNCTIONAL</td>
+        <td class="table__data">AREA</td>
+        <td class="table__data">LOCATION</td>
+        <td colspan="3">ACTION</td>
+    </tr>
+    {{#each printers}}
+        <tr class="table__row printer" data-ip="{{_id}}">
 
+            <div class="table__ctn table__ctn--visible">
+                <td class="table__data">{{title}}</td>
+                <td class="table__data">{{ip}}</td>
+                <td class="table__data">{{model}}</td>
+                <td class="table__data">{{multifunctional}}</td>
+                <td class="table__data">{{area}}</td>
+                <td class="table__data">{{location}}</td>
+                <td class="table__data"><a href='/printers/{{_id}}'>Manage</a></td>
+                <td class="table__data"><a href='/printers/update/{{_id}}'>Edit</a></td>
+                <td class="table__data"><a href='/printers/delete/{{_id}}'>Delete</a></td>
+            </div>
 
-</ul>
+            <div class="table__ctn table__ctn--visible">
+                <form action="/printers/update" method="post">
+                    <input type="hidden" name="printerId" value="{{_id}}">
+                    <td class="table__text">
+                        <input type="text" class="tableForm__input" name="title" value="{{title}}"></td>
+                    <td class="table__text">
+                        <input type="text" class="tableForm__input" name="ip" value="{{ip}}">
+                    </td>
+                    <td class="table__text">
+                        <select name="model">
+                            <option value="Xerox_AltaLink_C8035">Xerox AltaLink C8035</option>
+                            <option value="Xerox_VersaLink_C605">Xerox VersaLink C605</option>
+                            <option value="Xerox_VersaLink_C400">Xerox VersaLink C400</option>
+                        </select>
+                    </td>
+                    <td class="table__text">
+                        <input type="text" class="tableForm__input" disabled value="{{multifunctional}}">
+                    </td>
+                    <td class="table__text">
+                        <input type="text" class="tableForm__input" name="area" value="{{area}}">
+                    </td>
+                    <td class="table__text">
+                        <input type="text" class="tableForm__input" name="location" value="{{location}}">
+                    </td>
+                    <td>
+                        <button type="submit">Save</button>
+                    </td>
+                </form>
+            </div>
+
+        </tr>
+    {{/each}}
+    <tr>
+        <form action="/printers/create" method="post">
+            <td class="table__text"><input type="text" class="tableForm__input" name="title"></td>
+            <td class="table__text"><input type="text" class="tableForm__input" name="ip"></td>
+            <td class="table__text"><select name="model">
+                <option value="Xerox_AltaLink_C8035">Xerox AltaLink C8035</option>
+                <option value="Xerox_VersaLink_C605">Xerox VersaLink C605</option>
+                <option value="Xerox_VersaLink_C400">Xerox VersaLink C400</option>
+            </select></td>
+            <td class="table__text"><input type="text" class="tableForm__input" disabled></td>
+            <td class="table__text"><input type="text" class="tableForm__input" name="area"></td>
+            <td class="table__text"><input type="text" class="tableForm__input" name="location"></td>
+            <td>
+                <button type="submit">Add printer</button>
+            </td>
+        </form>
+    </tr>
+    </tbody>
+
+</table>

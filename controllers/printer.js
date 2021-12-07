@@ -30,22 +30,22 @@ const createPrinter = async (req, res) => {
   const {
     title,
     ip,
-    typeOfPrinter,
+    model,
     location,
   } = req.body;
 
   const newPrinter = new Printer({
     title,
     ip,
-    typeOfPrinter,
+    model,
     location,
-    multifunctional: isMultifunctionalPrinter(typeOfPrinter),
+    multifunctional: isMultifunctionalPrinter(model),
   });
 
   try {
     const p = await newPrinter.save();
     console.log('printer saved', p);
-    res.redirect('/');
+    res.redirect('/printers');
   } catch (e) {
     console.log('something wrong', e);
   }
@@ -79,7 +79,7 @@ const updatePrinter = async (req, res) => {
       multifunctional: isMultifunctionalPrinter(typeOfPrinter),
     });
     console.log('printer updated');
-    res.redirect('/');
+    res.redirect(`/printers/${printerId}`);
   } catch (e) {
     console.log('something wrong', e);
   }
