@@ -66,7 +66,7 @@ const updatePrinter = async (req, res) => {
     printerId,
     title,
     ip,
-    typeOfPrinter,
+    model,
     location,
   } = req.body;
 
@@ -74,12 +74,12 @@ const updatePrinter = async (req, res) => {
     await Printer.findByIdAndUpdate(printerId, {
       title,
       ip,
-      typeOfPrinter,
+      model,
       location,
-      multifunctional: isMultifunctionalPrinter(typeOfPrinter),
+      multifunctional: isMultifunctionalPrinter(model),
     });
     console.log('printer updated');
-    res.redirect(`/printers/${printerId}`);
+    res.redirect('/printers');
   } catch (e) {
     console.log('something wrong', e);
   }

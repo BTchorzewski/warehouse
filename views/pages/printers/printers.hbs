@@ -3,8 +3,6 @@
 <table class="table">
     <thead class="table__head">
     <tr class="table__row--main">List of printers</tr>
-    </thead>
-    <tbody class="table__body">
     <tr class="table__row--title table__row" colspan="6">
         <td class="table__data">TITLE</td>
         <td class="table__data">IP</td>
@@ -14,22 +12,29 @@
         <td class="table__data">LOCATION</td>
         <td colspan="3">ACTION</td>
     </tr>
+    </thead>
+    <tbody class="table__body">
     {{#each printers}}
-        <tr class="table__row printer" data-ip="{{_id}}">
 
-            <div class="table__ctn table__ctn--visible">
+        <div class="table__ctn" data-id="{{_id}}">
+           <tr class="table__row" data-ip="{{_id}}">
                 <td class="table__data">{{title}}</td>
                 <td class="table__data">{{ip}}</td>
                 <td class="table__data">{{model}}</td>
                 <td class="table__data">{{multifunctional}}</td>
                 <td class="table__data">{{area}}</td>
                 <td class="table__data">{{location}}</td>
-                <td class="table__data"><a href='/printers/{{_id}}'>Manage</a></td>
-                <td class="table__data"><a href='/printers/update/{{_id}}'>Edit</a></td>
-                <td class="table__data"><a href='/printers/delete/{{_id}}'>Delete</a></td>
-            </div>
-
-            <div class="table__ctn table__ctn--visible">
+                <td class="table__data">
+                    <a class="btn btn--manage" href='/printers/{{_id}}'>Manage</a>
+                </td>
+                <td class="table__data">
+                    <a class="btn btn--edit" href="#" data-id="{{_id}}">Edit</a>
+                </td>
+                <td class="table__data">
+                    <a class="btn btn--delete" href='/printers/delete/{{_id}}'>Delete</a>
+                </td>
+           </tr>
+            <tr class="table__row table__row--hidden" data-ip="{{_id}}">
                 <form action="/printers/update" method="post">
                     <input type="hidden" name="printerId" value="{{_id}}">
                     <td class="table__text">
@@ -57,9 +62,8 @@
                         <button type="submit">Save</button>
                     </td>
                 </form>
-            </div>
+            </tr>
 
-        </tr>
     {{/each}}
     <tr>
         <form action="/printers/create" method="post">
