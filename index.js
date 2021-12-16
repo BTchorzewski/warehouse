@@ -27,8 +27,8 @@ app.use(homeRouter);
 app.use(printerRouter);
 app.use(supplyRouter);
 try {
-  app.listen(process.env.PORT || 3000, () => {
-    mongoose.connect(process.env.MONGO_URL, {
+  app.listen(process.env.PORT || 3000, async () => {
+    await mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
     });
 

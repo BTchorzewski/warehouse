@@ -2,8 +2,11 @@ const express = require('express');
 
 const supplyRouter = express.Router();
 
-supplyRouter.get('/supply');
+const { getSupplyPage, addSupply, removeSupply } = require('../controllers/supply');
 
-supplyRouter.post('/supplies/:supply');
+supplyRouter.get('/supplies', getSupplyPage);
+
+supplyRouter.post('/add-supply', addSupply);
+supplyRouter.post('/remove-supply', removeSupply);
 
 module.exports = { supplyRouter };

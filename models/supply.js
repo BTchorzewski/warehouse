@@ -1,25 +1,25 @@
 const { Schema, model } = require('mongoose');
 
-const supplySchema = Schema({
-  title: {
-    type: String,
-  },
-  typeOfPrinter: {
-    type: String,
+const supplyWarehouseSchema = Schema({
+  code: {
+    type: Schema.Types.ObjectId,
+    ref: 'supplies',
   },
   dateInAt: {
     type: Date,
+    default: Date.now,
   },
   dateOutAt: {
     type: Date,
   },
   available: {
     type: Boolean,
+    default: true,
   },
-  printerIn: {
+  installedIn: {
     type: Schema.Types.ObjectId,
     ref: 'printer',
   },
 });
 
-module.exports = model('supply', supplySchema);
+module.exports = model('warehouse', supplyWarehouseSchema);
