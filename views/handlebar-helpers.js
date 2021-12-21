@@ -1,3 +1,5 @@
+const Warehouse = require('../models/warehouse');
+
 const handlebarHelpers = {
   upper: (txt) => txt.toUpperCase(),
   'find-price': (entries, selectedItem) => {
@@ -8,8 +10,12 @@ const handlebarHelpers = {
     const [, price] = result;
     return price;
   },
-  'format-price': price => price.toFixed(2),
-  'isInArray': (array, elem) => !array.includes(elem),
+  'format-price': (price) => price.toFixed(2),
+  isInArray: (array, elem) => !array.includes(elem),
+  'get-quantity': (code, arr) => {
+    const { count } = arr.find((el) => el.code === code);
+    return count;
+  }
 };
 
 module.exports = { handlebarHelpers };

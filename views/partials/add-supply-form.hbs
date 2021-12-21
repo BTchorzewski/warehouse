@@ -1,25 +1,12 @@
-<form action="/add-supplies" method="post">
-    <select name="printer" id="printer">
-        <option value="Xerox_AltaLink_C8035">Xerox_AltaLink_C8035</option>
-        <option value="Xerox_VersaLink_C605">Xerox_VersaLink_C605</option>
-        <option value="Xerox_VersaLink_C400">Xerox_VersaLink_C400</option>
-    </select>
-    <select name="supply" id="supply">
-        <option value="Black toner" data-printer="all">Black toner</option>
-        <option value="Yellow toner" data-printer="all">Yellow toner</option>
-        <option value="Magenta toner" data-printer="all">Magenta toner</option>
-        <option value="Cyan toner" data-printer="all">Cyan toner</option>
-        <option value="Drummer - C8035" data-printer="c8035">Drummer - C8035</option>
-        <option value="Drummer - Black" data-printer="c605">Drummer - Black</option>
-        <option value="Drummer - Yellow" data-printer="c605">Drummer - Yellow</option>
-        <option value="Drummer - Magenta" data-printer="c605">Drummer - Magenta</option>
-        <option value="Drummer - Cyan" data-printer="c605">Drummer - Cyan</option>
-        <option value="Waste toner" data-printer="all">Waste toner</option>
-        <option value="SBTR" data-printer="c8035">SBTR</option>
-        <option value="Belt cleaner">Belt cleaner</option>
-        <option value="TRANSFER KIT">TRANSFER KIT</option>
-        <option value="FUSER">FUSER</option>
-        <option value="IMAGING UNIT KI">IMAGING UNIT KI</option>
-    </select>
-    <input type="number" min="0" value="0">
-</form>
+<div class="printer">
+    <h2 class="printer__title">Xerox_AltaLink_C8035</h2>
+    {{#each printer}}
+     <form method="post">
+         <label for="">{{supply}}: {{get-quantity code @root.counts}}</label>
+         <input type="number" name="quantity" min="0" max="30" value="0">
+         <input type="hidden" name="code" value="{{code}}">
+         <button class="btn btn--add" data-action="add">add</button>
+         <button class="btn btn--remove" data-action="remove">remove</button>
+    </form>
+    {{/each}}
+</div>

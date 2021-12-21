@@ -12,7 +12,7 @@ const { handlebarHelpers } = require('./views/handlebar-helpers');
 
 const { homeRouter } = require('./routers/home');
 const { printerRouter } = require('./routers/printer');
-const { supplyRouter } = require('./routers/supply');
+const { warehouseRouter } = require('./routers/warehouse');
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded());
 // routers
 app.use(homeRouter);
 app.use(printerRouter);
-app.use(supplyRouter);
+app.use(warehouseRouter);
 try {
   app.listen(process.env.PORT || 3000, async () => {
     await mongoose.connect(process.env.MONGO_URL, {
