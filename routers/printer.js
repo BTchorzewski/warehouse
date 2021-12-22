@@ -13,6 +13,7 @@ const printerRouter = express.Router();
 const {
   getPrinterPage,
   getPrintersPage,
+  supplyPrinter,
   createPrinterPage,
   createPrinter,
   updatePrinterPage,
@@ -22,6 +23,7 @@ const {
 
 printerRouter.get('/printers', getPrintersPage);
 printerRouter.get('/printers/:printerId', getPrinterPage);
+printerRouter.post('/supply-printer', supplyPrinter);
 
 printerRouter.get('/printers/create', createPrinterPage);
 printerRouter.post('/printers/create', createPrinter);

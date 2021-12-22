@@ -1,12 +1,16 @@
 <div class="printer">
-    <h2 class="printer__title">Xerox_AltaLink_C8035</h2>
+    <h2 class="printer__title">{{model}}</h2>
     {{#each printer}}
-     <form method="post">
-         <label for="">{{supply}}: {{get-quantity code @root.counts}}</label>
-         <input type="number" name="quantity" min="0" max="30" value="0">
-         <input type="hidden" name="code" value="{{code}}">
-         <button class="btn btn--add" data-action="add">add</button>
-         <button class="btn btn--remove" data-action="remove">remove</button>
-    </form>
+        <form method="post">
+            <label for="">{{supply}}: {{get-quantity code @root.counts}}</label>
+            <input type="number" name="quantity" min="0" max="30" value="0">
+            <input type="hidden" name="code" value="{{code}}">
+            <button class="btn btn--add" data-action="add">add</button>
+            {{#if (isZero code @root.counts) }}
+                <button class="btn btn--remove" data-action="remove" disabled>remove</button>
+            {{else}}
+                <button class="btn btn--remove" data-action="remove">remove</button>
+            {{/if}}
+        </form>
     {{/each}}
 </div>

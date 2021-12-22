@@ -1,12 +1,16 @@
 const { Types } = require('mongoose');
 const Warehouse = require('../models/warehouse');
 const { SUPPLIES } = require('../utilities/constants');
+const {validationResult} = require('express-validator')
 
 const getWarehousePage = async (req, res) => {
   const c400 = SUPPLIES.filter((el) => el.printer === 'Xerox_VersaLink_C400');
   const c605 = SUPPLIES.filter((el) => el.printer === 'Xerox_VersaLink_C605');
   const c8035 = SUPPLIES.filter((el) => el.printer === 'Xerox_AltaLink_C8035');
 
+
+  const err = validationResult(req).array();
+  console.log(err);
   const counts = [];
   for (const supply of SUPPLIES) {
     const count = await Warehouse.find().and([{ code: supply.code }, { available: true }]).count();
@@ -16,7 +20,6 @@ const getWarehousePage = async (req, res) => {
     });
   }
 
-  // @todo write function to filter supplies for each printer.
   res.render('pages/warehouse/admin', {
     c400,
     c605,
@@ -27,27 +30,34 @@ const getWarehousePage = async (req, res) => {
 
 const addSupply = async (req, res) => {
   const { code, quantity } = req.body;
-
-  // @todo add to validation range of quantity 1-40.
+  const err = validationResult(req).array();
+  console.log(err);
   for (let i = 0; i < quantity; i++) {
     const newSup = new Warehouse({ code });
     await newSup.save();
   }
-  // @todo add communicat about completed task.
 
   res.redirect('/warehouse');
 };
 
 const removeSupply = async (req, res) => {
   const { code, quantity } = req.body;
-  for (let i = 0; i < quantity; i++) {
-    // @todo add validation: cant remove more than is in warehaus.
-    // @todo add validation: cant remove more than 40.
-    // @todo add communicat about completed task.
-    await Warehouse.findOneAndDelete({ available: true, code });
-  }
+  try {
+    const numberAvailableSupplies = await Warehouse.find({ available: true, code }).count();
+    //@todo move validation outside the controller.
+    if (quantity < 20) throw new Error('Can\'t remove more than 20 items');
 
-  res.redirect('/warehouse');
+    if (numberAvailableSupplies < quantity) throw new Error('the quantity is higher than amount of available items.');
+
+    for (let i = 0; i < quantity; i++) {
+      // @todo add communicat about completed task.
+      await Warehouse.findOneAndDelete({ available: true, code });
+    }
+  } catch (e) {
+    console.log(e.message);
+    const error = { msg: e.message };
+    res.render('pages/warehouse/admin', error);
+  }
 };
 
 module.exports = {

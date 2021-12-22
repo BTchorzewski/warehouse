@@ -15,7 +15,11 @@ const handlebarHelpers = {
   'get-quantity': (code, arr) => {
     const { count } = arr.find((el) => el.code === code);
     return count;
-  }
+  },
+  isZero: (code, arr) => {
+    const { count } = arr.find((el) => el.code === code);
+    return !(count > 0);
+  },
 };
 
 module.exports = { handlebarHelpers };

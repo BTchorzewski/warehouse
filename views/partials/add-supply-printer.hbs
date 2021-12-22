@@ -1,0 +1,13 @@
+<div class="manage">
+    <button class="manage-btn btn">add supplies</button>
+    button
+    {{#each @root.suppliesForPrinter}}
+        <form action="/supply-printer" method="post" class="supply">
+            <label for="" class="supply__label">{{supply}}</label>
+            <input type="hidden" name="printerId" class="supply__input" value="{{@root.printer._id}}">
+            <input type="hidden" name="code" value="{{code}}">
+            <button class="supply__button">add</button>
+        </form>
+
+    {{/each}}
+</div>

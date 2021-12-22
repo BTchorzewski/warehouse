@@ -1,4 +1,9 @@
 const Printer = require('../models/printer');
+
+const Warehouse = require('../models/warehouse');
+
+const { SUPPLIES } = require('../utilities/constants');
+
 const { isMultifunctionalPrinter } = require('../utilities/utilities');
 
 const getPrintersPage = async (req, res) => {
@@ -13,12 +18,48 @@ const getPrintersPage = async (req, res) => {
 
 const getPrinterPage = async (req, res) => {
   const { printerId } = req.params;
+
   try {
     const printer = await Printer.findById(printerId).lean();
     if (!printer) throw new Error('a printer not found');
-    res.render('pages/printers/printer', { printer });
+
+    const suppliesForPrinter = SUPPLIES.filter((supply) => supply.printer === printer.model);
+    console.log('start loop')
+    for (const suppliesForPrinterKey of suppliesForPrinter) {
+      const available = await Warehouse.find({ $and: [{ code: suppliesForPrinterKey.code }, { available: true }] }).count();
+      suppliesForPrinterKey.av = !available;
+      console.log('inside loop',suppliesForPrinterKey)
+    }
+    console.log(suppliesForPrinter);
+    console.log('end loop')
+    //@todo disable add button if supply in not available.
+    res.render('pages/printers/printer', { printer, suppliesForPrinter });
   } catch (e) {
     res.send(`Something wrong: ${e}`);
+  }
+};
+
+const supplyPrinter = async (req, res) => {
+  const { printerId, code } = req.body;
+  try {
+    const availableSupply = await Warehouse.findOne({ $and: [{ code }, { available: true }] });
+    const printer = await Printer.findById(printerId);
+
+    if (availableSupply === null || printer === null) {
+      throw new Error('Printer or supply not find');
+    }
+
+    printer.history.push(printer._id);
+    availableSupply.dateOutAt = new Date().toDateString();
+    availableSupply.installedIn = printer._id;
+
+    await printer.save();
+    await availableSupply.save();
+    res.redirect('/printers');
+  } catch (e) {
+    // @todo add error page.
+    console.log('Ups somethig wrong in supply printer', e);
+    res.redirect('/');
   }
 };
 
@@ -94,6 +135,7 @@ const deletePrinter = async (req, res) => {
 module.exports = {
   getPrinterPage,
   getPrintersPage,
+  supplyPrinter,
   createPrinterPage,
   createPrinter,
   updatePrinterPage,

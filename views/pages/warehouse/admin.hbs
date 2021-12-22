@@ -1,7 +1,11 @@
 <h1>admin warehouse page</h1>
 
-{{>add-supply-form printer=c8035}}
+{{#if error.msg}}
+    {{> error }}
+{{/if}}
 
-{{>add-supply-form printer=c605}}
+{{>add-supply-form printer=c8035 model='Xerox_AltaLink_C8035'}}
 
-{{>add-supply-form printer=c400}}
+{{>add-supply-form printer=c605 model='Xerox_VersaLink_C605'}}
+
+{{>add-supply-form printer=c400 model='Xerox_VersaLink_C400'}}
