@@ -1,6 +1,6 @@
 const Printer = require('../models/printer');
 
-const Warehouse = require('../models/warehouse');
+const Supply = require('../models/supply');
 
 const { SUPPLIES } = require('../utilities/constants');
 
@@ -20,18 +20,16 @@ const getPrinterPage = async (req, res) => {
   const { printerId } = req.params;
 
   try {
-    const printer = await Printer.findById(printerId).lean();
+    const printer = await Printer.findById(printerId).populate('history').lean();
     if (!printer) throw new Error('a printer not found');
 
     const suppliesForPrinter = SUPPLIES.filter((supply) => supply.printer === printer.model);
-    console.log('start loop')
+    console.log(printer.history)
     for (const suppliesForPrinterKey of suppliesForPrinter) {
-      const available = await Warehouse.find({ $and: [{ code: suppliesForPrinterKey.code }, { available: true }] }).count();
+      const available = await Supply.find({ $and: [{ code: suppliesForPrinterKey.code }, { available: true }] }).count();
       suppliesForPrinterKey.av = !available;
-      console.log('inside loop',suppliesForPrinterKey)
     }
-    console.log(suppliesForPrinter);
-    console.log('end loop')
+
     //@todo disable add button if supply in not available.
     res.render('pages/printers/printer', { printer, suppliesForPrinter });
   } catch (e) {
@@ -42,14 +40,14 @@ const getPrinterPage = async (req, res) => {
 const supplyPrinter = async (req, res) => {
   const { printerId, code } = req.body;
   try {
-    const availableSupply = await Warehouse.findOne({ $and: [{ code }, { available: true }] });
+    const availableSupply = await Supply.findOne({ $and: [{ code }, { available: true }] });
     const printer = await Printer.findById(printerId);
 
     if (availableSupply === null || printer === null) {
       throw new Error('Printer or supply not find');
     }
 
-    printer.history.push(printer._id);
+    printer.history.push(availableSupply._id);
     availableSupply.dateOutAt = new Date().toDateString();
     availableSupply.installedIn = printer._id;
 

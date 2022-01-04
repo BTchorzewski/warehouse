@@ -23,7 +23,7 @@ const printerSchema = Schema({
     type: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'supplies',
+        ref: 'supply',
       }
     ],
   },

@@ -1,19 +1,18 @@
-const { Types } = require('mongoose');
-const Warehouse = require('../models/warehouse');
+const { validationResult } = require('express-validator');
+const Supply = require('../models/supply');
+
 const { SUPPLIES } = require('../utilities/constants');
-const {validationResult} = require('express-validator')
 
 const getWarehousePage = async (req, res) => {
   const c400 = SUPPLIES.filter((el) => el.printer === 'Xerox_VersaLink_C400');
   const c605 = SUPPLIES.filter((el) => el.printer === 'Xerox_VersaLink_C605');
   const c8035 = SUPPLIES.filter((el) => el.printer === 'Xerox_AltaLink_C8035');
 
-
   const err = validationResult(req).array();
   console.log(err);
   const counts = [];
   for (const supply of SUPPLIES) {
-    const count = await Warehouse.find().and([{ code: supply.code }, { available: true }]).count();
+    const count = await Supply.find().and([{ code: supply.code }, { available: true }]).count();
     counts.push({
       code: supply.code,
       count,
@@ -33,7 +32,7 @@ const addSupply = async (req, res) => {
   const err = validationResult(req).array();
   console.log(err);
   for (let i = 0; i < quantity; i++) {
-    const newSup = new Warehouse({ code });
+    const newSup = new Supply({ code });
     await newSup.save();
   }
 
@@ -43,15 +42,15 @@ const addSupply = async (req, res) => {
 const removeSupply = async (req, res) => {
   const { code, quantity } = req.body;
   try {
-    const numberAvailableSupplies = await Warehouse.find({ available: true, code }).count();
-    //@todo move validation outside the controller.
+    const numberAvailableSupplies = await Supply.find({ available: true, code }).count();
+    // @todo move validation outside the controller.
     if (quantity < 20) throw new Error('Can\'t remove more than 20 items');
 
     if (numberAvailableSupplies < quantity) throw new Error('the quantity is higher than amount of available items.');
 
     for (let i = 0; i < quantity; i++) {
       // @todo add communicat about completed task.
-      await Warehouse.findOneAndDelete({ available: true, code });
+      await Supply.findOneAndDelete({ available: true, code });
     }
   } catch (e) {
     console.log(e.message);

@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-
+//@todo erease this model.
 const supplyWarehouseSchema = Schema({
   code: {
     type: String,
