@@ -24,13 +24,11 @@ const getPrinterPage = async (req, res) => {
     if (!printer) throw new Error('a printer not found');
 
     const suppliesForPrinter = SUPPLIES.filter((supply) => supply.printer === printer.model);
-    console.log(printer.history)
     for (const suppliesForPrinterKey of suppliesForPrinter) {
       const available = await Supply.find({ $and: [{ code: suppliesForPrinterKey.code }, { available: true }] }).count();
       suppliesForPrinterKey.av = !available;
     }
 
-    //@todo disable add button if supply in not available.
     res.render('pages/printers/printer', { printer, suppliesForPrinter });
   } catch (e) {
     res.send(`Something wrong: ${e}`);
@@ -43,17 +41,15 @@ const supplyPrinter = async (req, res) => {
     const availableSupply = await Supply.findOne({ $and: [{ code }, { available: true }] });
     const printer = await Printer.findById(printerId);
 
-    if (availableSupply === null || printer === null) {
-      throw new Error('Printer or supply not find');
-    }
+    if (availableSupply === null || printer === null) throw new Error('Printer or supply not find');
 
     printer.history.push(availableSupply._id);
     availableSupply.dateOutAt = new Date().toDateString();
     availableSupply.installedIn = printer._id;
-
+    availableSupply.available = false;
     await printer.save();
     await availableSupply.save();
-    res.redirect('/printers');
+    res.redirect(`/printers/${printerId}`);
   } catch (e) {
     // @todo add error page.
     console.log('Ups somethig wrong in supply printer', e);

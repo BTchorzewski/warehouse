@@ -6,7 +6,11 @@
             <label for="" class="supply__label">{{supply}}</label>
             <input type="hidden" name="printerId" class="supply__input" value="{{@root.printer._id}}">
             <input type="hidden" name="code" value="{{code}}">
-            <button class="supply__button">add</button>
+            {{#unless av}}
+                <button class="supply__button">add</button>
+            {{else}}
+                <button class="supply__button" disabled>add</button>
+            {{/unless}}
         </form>
 
     {{/each}}

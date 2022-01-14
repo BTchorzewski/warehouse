@@ -19,14 +19,13 @@ const printerSchema = Schema({
   location: {
     type: String,
   },
-  history: {
-    type: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'supply',
-      }
-    ],
-  },
+  history: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'supply',
+    },
+  ],
+
 });
 
 module.exports = model('printer', printerSchema);

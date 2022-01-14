@@ -1,4 +1,6 @@
+const moment = require('moment');
 const Warehouse = require('../models/warehouse');
+const { SUPPLIES } = require('../utilities/constants');
 
 const handlebarHelpers = {
   upper: (txt) => txt.toUpperCase(),
@@ -20,6 +22,11 @@ const handlebarHelpers = {
     const { count } = arr.find((el) => el.code === code);
     return !(count > 0);
   },
+  'get-info': (code) => {
+    const result = SUPPLIES.filter((supply) => supply.code === code).pop();
+    return result.supply;
+  },
+  'format-date': (date) => moment(date).format('MMMM Do YYYY, h:mm:ss a'),
 };
 
 module.exports = { handlebarHelpers };

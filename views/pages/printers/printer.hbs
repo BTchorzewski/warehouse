@@ -8,7 +8,7 @@
         <p class="printer__text">Area: {{area}}</p>
         <p class="printer__text">Location: {{location}}</p>
         {{>add-supply-printer}}
-        <p class="printer__text">History... </p>
+        {{>history history=history}}
         <a class="btn btn--active" href='/printers/delete/{{_id}}'>Delete</a>
         <a class="btn btn--active" href='/printers/update/{{_id}}'>Edit</a>
     </div>
